@@ -15,10 +15,23 @@ def deal():
     return card_type, card
 
 
+def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False, blnSum=True):
+    list_of_deal = ["first", "second", "third", "forth", "fifth", "sixth","seventh", "egihth", "ninth","tenth"]
+    if not blnSum:
+        if not blnOpponent_card:
+            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}")
+        else:
+            return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}")
+    else:
+        if not blnOpponent_card:
+            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}")
+        else:
+            return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}")
 
 
 first_own_card = deal()
-print(f"Your card: {first_own_card[0]}, {first_own_card[1]}")
+print_result(first_own_card[0], first_own_card[1],0,False,False,False)
+#print(f"Your card: {first_own_card[0]}, {first_own_card[1]}")
 print(f"Your opponent's card: {deal()[0]}, {deal()[1]}")
 second_own_card = deal()
 sum_own_card = first_own_card[1] + second_own_card[1]
@@ -30,5 +43,4 @@ while not stop_game:
         answer = input("Type yes if you want one more card else type no:\n").lower()
     if answer.lower() == "yes":
         third_own_card = deal()
-        print()
     stop_game = True
