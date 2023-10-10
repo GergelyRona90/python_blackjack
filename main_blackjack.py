@@ -15,9 +15,7 @@ def deal():
     return card_type, card
 
 
-def print_result(card_type, card_number, summa=True):
-    if summa == True:
-        return print()
+
 
 first_own_card = deal()
 print(f"Your card: {first_own_card[0]}, {first_own_card[1]}")
