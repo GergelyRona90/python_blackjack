@@ -15,32 +15,44 @@ def deal():
     return card_type, card
 
 
-def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False, blnSum=True):
-    list_of_deal = ["first", "second", "third", "forth", "fifth", "sixth","seventh", "egihth", "ninth","tenth"]
-    if not blnSum:
+def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False):
+    list_of_deal = ["first", "second", "third", "forth", "fifth", "sixth", "seventh", "egihth", "ninth", "tenth",
+                    "eleventh"]
+    if sum_cards == 0:
         if not blnOpponent_card:
-            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}")
+            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
         else:
-            return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}")
+            return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
     else:
         if not blnOpponent_card:
-            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}")
+            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
         else:
-            return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}")
+            return print(
+                f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
 
 
-first_own_card = deal()
-print_result(first_own_card[0], first_own_card[1],0,False,False,False)
-#print(f"Your card: {first_own_card[0]}, {first_own_card[1]}")
-print(f"Your opponent's card: {deal()[0]}, {deal()[1]}")
-second_own_card = deal()
-sum_own_card = first_own_card[1] + second_own_card[1]
-print(f"Your second card: {second_own_card[0]}, {second_own_card[1]}\nSum: {sum_own_card}")
-opponent_hidden_card = deal()
+own_cards = []
+opponent_cards = []
+
+# Első deal magunknak
+own_cards.append(deal())
+print_result(own_cards[0][0], own_cards[0][1], 0, 0, False)
+# Első deal ellenfélnek
+opponent_cards.append(deal())
+print_result(opponent_cards[0][0], opponent_cards[0][1], 0, 0, True)
+# Második deal magunknak
+own_cards.append(deal())
+sum_own_cards = own_cards[0][1] + own_cards[1][1]
+print_result(own_cards[1][0], own_cards[1][1], 1, sum_own_cards, False)
+# Második (rejtett) deal az elenfélnek
+opponent_cards.append(deal())
+
 while not stop_game:
     answer = ""
     while answer != "yes" and answer != "no":
         answer = input("Type yes if you want one more card else type no:\n").lower()
-    if answer.lower() == "yes":
-        third_own_card = deal()
+        if answer.lower() == "yes":
+            own_cards.append(deal())
+            sum_own_cards = sum_own_cards + own_cards[2][1]
+            print_result(own_cards[2][0], own_cards[2][1], 2, sum_own_cards, False)
     stop_game = True
