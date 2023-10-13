@@ -1,5 +1,6 @@
 import random
 
+
 cards_list = {"heart": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               "tiles": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               "pikes": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
@@ -13,12 +14,10 @@ sum_opponent_cards = 0
 def deal(sum_cards):
     card_type = random.choice(list(cards_list.keys()))
     card = random.choice(cards_list[card_type])
-    if card == 11:
-        # if sum_cards + 11 > 21:
-        card = 1
-        print("Itt a card")
-
     cards_list[card_type].remove(card)
+    if card == 11:
+        if sum_cards + 11 > 21:
+            card = 1
     return card_type, card
 
 
@@ -65,9 +64,12 @@ while not stop_game:
             sum_own_cards = sum_own_cards + own_cards[deal_turn][1]
             print_result(own_cards[deal_turn][0], own_cards[deal_turn][1], deal_turn, sum_own_cards, False)
             deal_turn += 1
-            # if sum_own_cards > 21:
-            #     stop_game = True
+            if sum_own_cards >= 21:
+                stop_game = True
         elif answer.lower() == "no":
             print_result(opponent_cards[1][0], opponent_cards[1][1], 1, sum_opponent_cards, True)
-            stop_game = True
+
+            while sum_opponent_cards:
+
+                stop_game = True
     # stop_game = True
