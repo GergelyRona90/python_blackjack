@@ -7,6 +7,7 @@ cards_list = {"heart": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               "clover": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               }
 stop_game = False
+loose = False
 sum_own_cards = 0
 sum_opponent_cards = 0
 
@@ -22,20 +23,39 @@ def deal(sum_cards):
 
 
 def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False):
+    import time  # Importáld a time modult
+
     list_of_deal = ["first", "second", "third", "forth", "fifth", "sixth", "seventh", "egihth", "ninth", "tenth",
                     "eleventh"]
     if sum_cards == 0:
         if not blnOpponent_card:
-            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
+            print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
         else:
-            return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
+            print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
     else:
         if not blnOpponent_card:
-            return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
+            print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
         else:
-            return print(
+            print(
                 f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
 
+    time.sleep(1)  # Várakozás 1 másodpercig
+
+
+# def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False):
+#     list_of_deal = ["first", "second", "third", "forth", "fifth", "sixth", "seventh", "egihth", "ninth", "tenth",
+#                     "eleventh"]
+#     if sum_cards == 0:
+#         if not blnOpponent_card:
+#             return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
+#         else:
+#             return print(f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\n")
+#     else:
+#         if not blnOpponent_card:
+#             return print(f"Your {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
+#         else:
+#             return print(
+#                 f"Your opponent's {list_of_deal[number_of_deal]} card: {card_type}, {card_number}\nSum: {sum_cards}\n")
 
 own_cards = []
 opponent_cards = []
@@ -65,11 +85,15 @@ while not stop_game:
             print_result(own_cards[deal_turn][0], own_cards[deal_turn][1], deal_turn, sum_own_cards, False)
             deal_turn += 1
             if sum_own_cards >= 21:
+                loose = True
                 stop_game = True
         elif answer.lower() == "no":
-            print_result(opponent_cards[1][0], opponent_cards[1][1], 1, sum_opponent_cards, True)
+            stop_game = True
+deal_turn = 1
+while sum_opponent_cards < 17:
+    print_result(opponent_cards[deal_turn][0], opponent_cards[deal_turn][1], 1, sum_opponent_cards, True)
+    opponent_cards.append(deal(sum_opponent_cards))
+    sum_opponent_cards = sum_opponent_cards + opponent_cards[deal_turn][1]
+    deal_turn += 1
 
-            while sum_opponent_cards:
-
-                stop_game = True
-    # stop_game = True
+print_result(opponent_cards[deal_turn][0], opponent_cards[deal_turn][1], 1, sum_opponent_cards, True)
