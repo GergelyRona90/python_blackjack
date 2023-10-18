@@ -74,15 +74,15 @@ while not stop_game:
     answer = ""
     while answer != "yes" and answer != "no":
         answer = input("Type yes if you want one more card else type no:\n").lower()
-        own_cards.append(deal(sum_own_cards))
-        if answer.lower() == "yes":
+        if answer.lower() == "no":
+            stop_game = True
+        elif answer.lower() == "yes":
+            own_cards.append(deal(sum_own_cards))
             sum_own_cards = sum_own_cards + own_cards[deal_turn][1]
             print_result(own_cards[deal_turn][0], own_cards[deal_turn][1], deal_turn, sum_own_cards, False)
             deal_turn += 1
             if sum_own_cards >= 21:
                 stop_game = True
-        elif answer.lower() == "no":
-            stop_game = True
 deal_turn = 1
 while sum_opponent_cards < 17:
     print_result(opponent_cards[deal_turn][0], opponent_cards[deal_turn][1], 1, sum_opponent_cards, True)
