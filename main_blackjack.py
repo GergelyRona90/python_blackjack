@@ -1,9 +1,9 @@
 import random
 # List of the cards
-cards_list = {"heart": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
-              "tiles": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
-              "pikes": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
-              "clover": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
+cards_list = {"\u2663": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
+              "\u2665": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
+              "\u2666": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
+              "\u2660": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               }
 stop_game = False
 sum_own_cards = 0
@@ -28,14 +28,14 @@ def deal(sum_cards):
 # Need the card type the card number to print these values
 # Need number_of_deal to know which turn is it
 # Sum_cards: This parameter contains the values of the cards
-    # if this equal to 0 then we don't count with this
+# if this equal to 0 then we don't count with this
 # blnOpponent_card is a boolean
-    # We check with this parameter whose turn it is
+# We check with this parameter whose turn it is
 def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False):
     import time
 
     list_of_deals = ["first", "second", "third", "forth", "fifth", "sixth", "seventh", "egihth", "ninth", "tenth",
-                    "eleventh"]
+                     "eleventh"]
     if sum_cards == 0:
         if not blnOpponent_card:
             print(f"Your {list_of_deals[number_of_deal]} card: {card_type}, {card_number}\n")
@@ -65,7 +65,7 @@ own_cards.append(deal(sum_own_cards))
 sum_own_cards = own_cards[0][1] + own_cards[1][1]
 print_result(own_cards[1][0], own_cards[1][1], 1, sum_own_cards, False)
 # Second (hidden) deal for opponent
-    # Don't show opponent's second until we end the our turns
+# Don't show opponent's second until we end the our turns
 opponent_cards.append(deal(sum_opponent_cards))
 sum_opponent_cards = opponent_cards[0][1] + opponent_cards[1][1]
 # Need a variable to store the turn of deals and use it for the print result function
