@@ -1,4 +1,5 @@
 import random
+
 # List of the cards
 cards_list = {"\u2663": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               "\u2665": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
@@ -6,6 +7,7 @@ cards_list = {"\u2663": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               "\u2660": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
               }
 stop_game = False
+lost = False
 sum_own_cards = 0
 sum_opponent_cards = 0
 
@@ -34,7 +36,7 @@ def deal(sum_cards):
 def print_result(card_type, card_number, number_of_deal, sum_cards=0, blnOpponent_card=False):
     import time
 
-    list_of_deals = ["first", "second", "third", "forth", "fifth", "sixth", "seventh", "egihth", "ninth", "tenth",
+    list_of_deals = ["first", "second", "third", "forth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
                      "eleventh"]
     if sum_cards == 0:
         if not blnOpponent_card:
@@ -65,13 +67,15 @@ own_cards.append(deal(sum_own_cards))
 sum_own_cards = own_cards[0][1] + own_cards[1][1]
 print_result(own_cards[1][0], own_cards[1][1], 1, sum_own_cards, False)
 # Second (hidden) deal for opponent
-# Don't show opponent's second until we end the our turns
+# Don't show opponent's second until we end our turns
 opponent_cards.append(deal(sum_opponent_cards))
 sum_opponent_cards = opponent_cards[0][1] + opponent_cards[1][1]
 # Need a variable to store the turn of deals and use it for the print result function
 deal_turn = 2
-while not stop_game:
+# We play until we say no or lost become true (when our cards values more then 21)
+while not stop_game and lost == False:
     answer = ""
+    # The answer must be yes or no
     while answer != "yes" and answer != "no":
         answer = input("Type yes if you want one more card else type no:\n").lower()
         if answer.lower() == "no":
@@ -81,18 +85,21 @@ while not stop_game:
             sum_own_cards = sum_own_cards + own_cards[deal_turn][1]
             print_result(own_cards[deal_turn][0], own_cards[deal_turn][1], deal_turn, sum_own_cards, False)
             deal_turn += 1
-            if sum_own_cards >= 21:
-                stop_game = True
+            if sum_own_cards > 21:
+                lost = True
 deal_turn = 1
-while sum_opponent_cards < 17:
+# if we stopped the game and the sum of our cards values aren't bigger then 21 the opponent's turn begin:
+if not lost:
+    while sum_opponent_cards < 17:
+        print_result(opponent_cards[deal_turn][0], opponent_cards[deal_turn][1], 1, sum_opponent_cards, True)
+        opponent_cards.append(deal(sum_opponent_cards))
+        sum_opponent_cards = sum_opponent_cards + opponent_cards[deal_turn][1]
+        deal_turn += 1
+
     print_result(opponent_cards[deal_turn][0], opponent_cards[deal_turn][1], 1, sum_opponent_cards, True)
-    opponent_cards.append(deal(sum_opponent_cards))
-    sum_opponent_cards = sum_opponent_cards + opponent_cards[deal_turn][1]
-    deal_turn += 1
 
-print_result(opponent_cards[deal_turn][0], opponent_cards[deal_turn][1], 1, sum_opponent_cards, True)
-
-if sum_own_cards > 21:
+# Print the game result
+if lost:
     print("The sum of your cards exceeded 21. You loose!")
 else:
     print(f"The sum of your cards: {sum_own_cards}\nThe sum of your opponent cards: {sum_opponent_cards}")
